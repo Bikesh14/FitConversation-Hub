@@ -1,23 +1,24 @@
-const express = require("express");
+import express from "express";
+import { Request, Response } from "express";
+
 const PORT = process.env.PORT || 8000;
 const app = express();
-const path = require("path");
 
 app.set("view engine", "ejs"); //middleware
 
-app.get("/", (req: any, res: any) => {
+app.get("/", (req: Request, res: Response) => {
   res.render("index");
 });
 
-app.get("/profile", (req: any, res: any) => {
+app.get("/profile", (req: Request, res: Response) => {
   res.render("profile", { user: "Bikesh" });
 });
 
-app.get("/users/signup", (req: any, res: any) => {
+app.get("/users/signup", (req: Request, res: Response) => {
   res.render("signup");
 });
 
-app.get("/users/login", (req: any, res: any) => {
+app.get("/users/login", (req: Request, res: Response) => {
   res.render("login");
 });
 
