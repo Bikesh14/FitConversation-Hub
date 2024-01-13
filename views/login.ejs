@@ -67,10 +67,26 @@
       a:hover {
         text-decoration: underline;
       }
+      .success-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 10px 0;
+      }
+
+      .success-list-item {
+        color: #557c55;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
     </style>
   </head>
   <body>
     <form action="/users/login" method="post">
+      <ul class="success-list">
+        <% if(messages.success_msg) { %>
+        <li class="success-list-item"><%= messages.success_msg %></li>
+        <% } %>
+      </ul>
       <h2>Enter your credentials</h2>
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required />

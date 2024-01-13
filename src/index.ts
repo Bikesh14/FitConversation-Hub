@@ -1,13 +1,28 @@
-import express from "express";
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import session from "express-session";
+import flash from "express-flash";
+import { pool } from "../dbConfig";
+import { time } from "console";
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
-import { pool } from "../dbConfig";
-app.set("view engine", "ejs"); //middleware
+//middlewares
+app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
+
+// session middleware
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+//flash middleware
+app.use(flash());
 
 app.get("/", (req: Request, res: Response) => {
   res.render("index");
@@ -58,8 +73,35 @@ app.post("/users/signup", async (req: Request, res: Response) => {
         console.log(results.rows);
 
         if (results.rows.length > 0) {
-          errors.push({ message: "Email already registered" });
+          errors.push({ message: "Email already registered!!" });
           res.render("signup", { errors });
+        } else {
+          // Get the current date and time
+          const currentDate = new Date();
+
+          // Format the date string in a way that SQL understands
+          const formattedDate: String = currentDate
+            .toISOString()
+            .slice(0, 19)
+            .replace("T", " ");
+
+          pool.query(
+            `INSERT INTO users (username, password, email, user_type, profile_created_at)
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING username, password, email, user_type, profile_created_at`,
+            [username, hashedPassword, email, "client", formattedDate],
+            (err, results) => {
+              if (err) {
+                throw err;
+              }
+              console.log(results.rows);
+              req.flash(
+                "success_msg",
+                "You have been registered. Please log in"
+              );
+              res.redirect("/users/login");
+            }
+          );
         }
       }
     );
