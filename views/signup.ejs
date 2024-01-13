@@ -67,12 +67,30 @@
       a:hover {
         text-decoration: underline;
       }
+
+      .error-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 10px 0;
+      }
+
+      .error-list-item {
+        color: #ff3333;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
     </style>
   </head>
   <body>
-    <form action="/users/register" method="post">
-      <h2>Register here</h2>
+    <form action="/users/signup" method="post">
+      <ul class="error-list">
+        <% if (typeof errors !== 'undefined') { %> <% errors.forEach(error => {
+        %>
+        <li class="error-list-item"><%= error.message %></li>
+        <% }) %> <% } %>
+      </ul>
 
+      <h2>Register here</h2>
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required />
 
@@ -80,13 +98,20 @@
       <input type="email" id="email" name="email" required />
 
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password must be at least 6 characters"
+        required
+      />
 
       <label for="confirmPassword">Confirm Password:</label>
       <input
         type="password"
         id="confirmPassword"
         name="confirmPassword"
+        placeholder="Enter password one more time"
         required
       />
 
