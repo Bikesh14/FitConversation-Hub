@@ -1,12 +1,19 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import session from "express-session";
 import flash from "express-flash";
 import { pool } from "../dbConfig";
-import { time } from "console";
+import passport from "passport";
 
-const PORT = process.env.PORT || 8000;
+// import { initializePassport } from "../passportConfig";
+
 const app = express();
+require("dotenv").config();
+
+// initializePassport(passport);
+const PORT = process.env.PORT || 8000;
+const initializePassport = require("../passportConfig");
+initializePassport(passport);
 
 //middlewares
 app.set("view engine", "ejs");
@@ -21,6 +28,8 @@ app.use(
   })
 );
 
+app.use(passport.initialize());
+app.use(passport.session());
 //flash middleware
 app.use(flash());
 
@@ -28,8 +37,8 @@ app.get("/", (req: Request, res: Response) => {
   res.render("index");
 });
 
-app.get("/profile", (req: Request, res: Response) => {
-  res.render("profile", { user: "Bikesh" });
+app.get("/user/dashboard", (req: Request, res: Response) => {
+  res.render("dashboard", { user: "Bikesh" });
 });
 
 app.get("/users/signup", (req: Request, res: Response) => {
@@ -111,6 +120,33 @@ app.post("/users/signup", async (req: Request, res: Response) => {
 app.get("/users/login", (req: Request, res: Response) => {
   res.render("login");
 });
+
+app.post(
+  "/users/login",
+  passport.authenticate("local", {
+    successRedirect: "/users/dashboard",
+    failureRedirect: "/users/login",
+    failureFlash: true,
+  })
+);
+
+function checkAuthenticated(req: Request, res: Response, next: NextFunction) {
+  if (req.isAuthenticated()) {
+    return res.redirect("/users/dashboard");
+  }
+  next();
+}
+
+function checkNotAuthenticated(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/users/login");
+}
 
 app.listen(PORT, () => {
   console.log(`now listening on port ${PORT}`);

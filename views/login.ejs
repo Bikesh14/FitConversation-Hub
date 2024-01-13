@@ -74,9 +74,14 @@
       }
 
       .success-list-item {
-        color: #557c55;
         font-weight: bold;
         margin-bottom: 5px;
+      }
+      .success {
+        color: #557c55;
+      }
+      .error {
+        color: #ff3333;
       }
     </style>
   </head>
@@ -84,7 +89,13 @@
     <form action="/users/login" method="post">
       <ul class="success-list">
         <% if(messages.success_msg) { %>
-        <li class="success-list-item"><%= messages.success_msg %></li>
+        <li class="success-list-item success"><%= messages.success_msg %></li>
+        <% } %>
+      </ul>
+
+      <ul class="success-list">
+        <% if (messages.error) { %>
+        <li class="success-list-item error"><%= messages.error %></li>
         <% } %>
       </ul>
       <h2>Enter your credentials</h2>
