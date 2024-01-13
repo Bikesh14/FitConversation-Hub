@@ -82,7 +82,7 @@
     </style>
   </head>
   <body>
-    <form action="/users/signup" method="post">
+    <form action="/user/signup" method="post">
       <ul class="error-list">
         <% if (typeof errors !== 'undefined') { %> <% errors.forEach(error => {
         %>
@@ -117,7 +117,7 @@
 
       <input type="submit" value="Register" />
 
-      <p>Already a user? <a href="/users/login"> Login now</a></p>
+      <p>Already a user? <a href="/user/login"> Login now</a></p>
     </form>
   </body>
 </html>

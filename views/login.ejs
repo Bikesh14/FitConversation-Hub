@@ -86,7 +86,7 @@
     </style>
   </head>
   <body>
-    <form action="/users/login" method="post">
+    <form action="/user/login" method="post">
       <ul class="success-list">
         <% if(messages.success_msg) { %>
         <li class="success-list-item success"><%= messages.success_msg %></li>
@@ -107,7 +107,7 @@
 
       <input type="submit" value="Login" />
 
-      <p>Don't have an account? <a href="/users/signup">Register now</a></p>
+      <p>Don't have an account? <a href="/user/signup">Register now</a></p>
     </form>
   </body>
 </html>
