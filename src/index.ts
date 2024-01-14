@@ -1,5 +1,4 @@
-// app.ts
-import express from "express";
+import express, { Request, Response } from "express";
 import session from "express-session";
 import flash from "express-flash";
 import passport from "passport";
@@ -22,8 +21,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+app.get("/", (req: Request, res: Response) => {
+  res.render("index");
+});
+
 // Routes
-app.use("/", authRoutes);
+app.use("/user", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Now listening on port ${PORT}`);

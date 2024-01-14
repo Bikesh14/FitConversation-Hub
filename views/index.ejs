@@ -3,9 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Login or Signup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      button {
+        background-color: #465775;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+      }
+
+      button:hover {
+        background-color: #648767;
+      }
+    </style>
   </head>
   <body>
-    <h2>Landing page</h2>
+    <div class="container">
+      <button onclick="location.href='/user/login'">Login</button>
+      <button onclick="location.href='/user/signup'">Signup</button>
+    </div>
   </body>
 </html>

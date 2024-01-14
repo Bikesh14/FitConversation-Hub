@@ -7,14 +7,14 @@ import { dashboardController } from "../controllers/dashboardController";
 
 const router = express.Router();
 
-router.get("/user/login", loginController.getLoginPage);
-router.post("/user/login", loginController.login);
+router.get("/login", loginController.getLoginPage);
+router.post("/login", loginController.login);
 
-router.get("/user/signup", signupController.getSignupPage);
-router.post("/user/signup", signupController.signup);
+router.get("/signup", signupController.getSignupPage);
+router.post("/signup", signupController.signup);
 
-router.get("/user/signup", logoutController.logout);
+router.get("/logout", logoutController.logout);
 
-router.get("/user/dashboard", dashboardController.showDashboard);
+router.get("/dashboard", dashboardController.showDashboard);
 
 export default router;
