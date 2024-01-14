@@ -1,9 +1,14 @@
-// controllers/logoutController.ts
 import { Request, Response } from "express";
 
 export const logoutController = {
-  logout(req: Request, res: Response) {
+  logoutFunction(req: any, res: Response) {
     // req.logout();
-    res.redirect("/");
+    req.logout((err: any) => {
+      if (err) {
+        console.error(err);
+      }
+      req.flash("success_msg", "You have logged out!");
+      res.redirect("/user/signup");
+    });
   },
 };

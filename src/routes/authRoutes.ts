@@ -4,17 +4,22 @@ import { loginController } from "../controllers/loginController";
 import { signupController } from "../controllers/signupController";
 import { logoutController } from "../controllers/logoutController";
 import { dashboardController } from "../controllers/dashboardController";
+import { checkAuthenticated, checkNotAuthenticated } from "../util/utils";
 
 const router = express.Router();
 
-router.get("/login", loginController.getLoginPage);
+router.get("/login", checkAuthenticated, loginController.getLoginPage);
 router.post("/login", loginController.login);
 
-router.get("/signup", signupController.getSignupPage);
+router.get("/signup", checkAuthenticated, signupController.getSignupPage);
 router.post("/signup", signupController.signup);
 
-router.get("/logout", logoutController.logout);
+router.get("/logout", logoutController.logoutFunction);
 
-router.get("/dashboard", dashboardController.showDashboard);
+router.get(
+  "/dashboard",
+  checkNotAuthenticated,
+  dashboardController.showDashboard
+);
 
 export default router;
