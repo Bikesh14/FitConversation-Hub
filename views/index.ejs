@@ -4,39 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login or Signup</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-
-      .container {
-        text-align: center;
-      }
-
-      button {
-        background-color: #465775;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 16px;
-        margin: 10px;
-        cursor: pointer;
-        border: none;
-        border-radius: 4px;
-      }
-
-      button:hover {
-        background-color: #648767;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <div class="container">
+      <ul class="success-list">
+        <% if(messages.success_msg) { %>
+        <li class="success-list-item"><%= messages.success_msg %></li>
+        <% } %>
+      </ul>
       <h1>Hello! Welcome to Fit Conversation Hub</h1>
       <button onclick="location.href='/user/login'">Login</button>
       <button onclick="location.href='/user/signup'">Signup</button>

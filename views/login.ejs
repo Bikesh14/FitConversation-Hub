@@ -4,86 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-
-      form {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 300px;
-      }
-
-      h2 {
-        text-align: center;
-        margin-top: 0;
-        color: #333;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 8px;
-        color: #555;
-      }
-
-      input {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 12px;
-        box-sizing: border-box;
-      }
-
-      input[type="submit"] {
-        border: none;
-        background-color: #465775;
-        color: #fff;
-        cursor: pointer;
-      }
-
-      input[type="submit"]:hover {
-        background-color: #648767;
-      }
-
-      p {
-        margin-top: 10px;
-        text-align: center;
-        color: #333;
-      }
-
-      a {
-        color: #f06449;
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-      .success-list {
-        list-style-type: none;
-        padding: 0;
-        margin: 10px 0;
-      }
-
-      .success-list-item {
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-      .success {
-        color: #557c55;
-      }
-      .error {
-        color: #ff3333;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <form action="/user/login" method="post">
@@ -95,7 +16,7 @@
 
       <ul class="success-list">
         <% if (messages.error) { %>
-        <li class="success-list-item error"><%= messages.error %></li>
+        <li class="error-list-item"><%= messages.error %></li>
         <% } %>
       </ul>
       <h2>Enter your credentials</h2>

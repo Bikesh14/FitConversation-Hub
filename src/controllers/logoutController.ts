@@ -7,8 +7,8 @@ export const logoutController = {
       if (err) {
         console.error(err);
       }
-      req.flash("success_msg", "You have logged out!");
-      res.redirect("/user/signup");
+      req.flash("success_msg", "You have been logged out!");
+      res.redirect("/");
     });
   },
 };
