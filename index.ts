@@ -3,10 +3,20 @@ import session from "express-session";
 import flash from "express-flash";
 import passport from "passport";
 import authRoutes from "./src/routes/authRoutes";
-import { checkAuthenticated, checkNotAuthenticated } from "./src/util/utils";
+import { dashboardController } from "./src/controllers/dashboardController";
 
+import { checkAuthenticated, checkNotAuthenticated } from "./src/util/utils";
+import http from "http";
+
+const socketio = require("socket.io");
 const app = express();
 const PORT = process.env.PORT || 8000;
+const server = http.createServer(app);
+const io = socketio(server);
+
+io.on("connection", (socket: any) => {
+  console.log("New Websocket connection....... this is working");
+});
 
 // Middlewares
 app.set("view engine", "ejs");
@@ -30,6 +40,6 @@ app.get("/", checkAuthenticated, (req: Request, res: Response) => {
 // Routes
 app.use("/user", authRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Now listening on port ${PORT}`);
 });

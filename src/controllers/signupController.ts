@@ -10,7 +10,7 @@ export const signupController = {
 
   async signup(req: Request, res: Response) {
     let { username, email, password, confirmPassword } = req.body;
-    console.log({ username, email, password, confirmPassword });
+    // console.log({ username, email, password, confirmPassword });
     interface ValidationError {
       message: string;
     }
@@ -28,7 +28,6 @@ export const signupController = {
       res.render("signup", { errors });
     } else {
       let hashedPassword: String = await bcrypt.hash(password, 10);
-      console.log(hashedPassword);
       pool.query(
         `SELECT * FROM users
         WHERE email = $1`,
@@ -37,7 +36,6 @@ export const signupController = {
           if (err) {
             console.log(err);
           }
-          console.log(results.rows);
           if (results.rows.length > 0) {
             errors.push({ message: "Email already registered!!" });
             res.render("signup", { errors });
@@ -58,7 +56,7 @@ export const signupController = {
                 if (err) {
                   throw err;
                 }
-                console.log(results.rows);
+                // console.log(results.rows);
                 req.flash(
                   "success_msg",
                   "You have been registered. Please log in"
