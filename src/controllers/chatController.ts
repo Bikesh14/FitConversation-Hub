@@ -22,4 +22,22 @@ export const chatController = {
       res.status(500).send("Internal Server Error");
     }
   },
+
+  getConnectedUserConnections: async (req: Request, res: Response) => {
+    try {
+      const user = req.user as { user_id?: string };
+      const user_id = user?.user_id || "null";
+      // Retrieve user connections with connection_status = 'connected' where the authenticated user is involved
+      const result = await pool.query(
+        `SELECT * FROM user_connections WHERE (user_id_1 = $1 OR user_id_2 = $1) AND (connection_status='accepted')`,
+        [user_id]
+      );
+
+      // Send the retrieved connected users as a JSON response
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error fetching connected user IDs:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  },
 };
