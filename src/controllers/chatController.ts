@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { pool } from "../../dbConfig";
+import { pool } from "../database/dbConfig";
 
 export const chatController = {
   getChatsBetweenUsers: async (req: Request, res: Response) => {

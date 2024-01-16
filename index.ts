@@ -8,11 +8,14 @@ import { dashboardController } from "./src/controllers/dashboardController";
 import { checkAuthenticated, checkNotAuthenticated } from "./src/util/utils";
 import http from "http";
 
-const socketio = require("socket.io");
+const { createServer } = require("node:http");
+const { Server } = require("socket.io");
+
 const app = express();
+const server = createServer(app);
+const io = new Server(server);
 const PORT = process.env.PORT || 8000;
-const server = http.createServer(app);
-const io = socketio(server);
+// const io = socketio(server);
 
 io.on("connection", (socket: any) => {
   console.log("New Websocket connection....... this is working");

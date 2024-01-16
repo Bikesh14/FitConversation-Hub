@@ -1,6 +1,6 @@
 // controllers/signupController.ts
 import { Request, Response } from "express";
-import { pool } from "../../dbConfig";
+import { pool } from "../database/dbConfig";
 import bcrypt from "bcrypt";
 
 export const signupController = {

@@ -1,5 +1,5 @@
 const LocalStrategy = require("passport-local").Strategy;
-import { pool } from "./dbConfig";
+import { pool } from "../database/dbConfig";
 import bcrypt from "bcrypt";
 
 function initialize(passport: any) {
@@ -47,15 +47,10 @@ function initialize(passport: any) {
     )
   );
   // Stores user details inside session. serializeUser determines which data of the user
-  // object should be stored in the session. The result of the serializeUser method is attached
-  // to the session as req.session.passport.user = {}. Here for instance, it would be (as we provide
-  //   the user id as the key) req.session.passport.user = {id: 'xyz'}
+  // object should be stored in the session.
   passport.serializeUser((user: any, done: Function) =>
     done(null, user.user_id)
   );
-
-  // In deserializeUser that key is matched with the in memory array / database or any data resource.
-  // The fetched object is attached to the request object as req.user
 
   passport.deserializeUser((user_id: Number, done: Function) => {
     pool.query(

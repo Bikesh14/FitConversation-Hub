@@ -1,7 +1,7 @@
 // controllers/loginController.ts
 import { Request, Response } from "express";
 import passport from "passport";
-const initializePassport = require("../../passportConfig");
+const initializePassport = require("../auth/passportConfig");
 initializePassport(passport);
 
 export const loginController = {
