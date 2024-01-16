@@ -4,36 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script src="/socket.io/socket.io.js"></script>
     <!-- <script src="ts/chat.js"></script> -->
-    <script>
-      const socket = io();
-    </script>
   </head>
   <style>
-    ::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    ::-webkit-scrollbar-track {
-      width: 5px;
-      background: #f5f5f5;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      width: 1em;
-      background-color: #ddd;
-      outline: 1px solid slategrey;
-      border-radius: 1rem;
-    }
-
     .text-small {
       font-size: 0.9rem;
     }
@@ -107,7 +88,7 @@
                       <div
                         class="d-flex align-items-center justify-content-between mb-1"
                       >
-                        <h6 class="mb-0">Hari lal</h6>
+                        <h6 class="mb-0">New user</h6>
                         <small class="small font-weight-bold">14 Dec</small>
                       </div>
                       <p class="font-italic text-muted mb-0 text-small">
@@ -122,8 +103,8 @@
         </div>
         <!-- Chat Box-->
         <div class="col-7 px-0">
-          <div class="px-4 py-5 chat-box bg-white">
-            <!-- Sender Message-->
+          <div class="px-4 py-5 chat-box bg-white" id="chat-box">
+            <!-- other user-->
             <div class="media w-50 mb-3">
               <img
                 src="https://bootstrapious.com/i/snippets/sn-chat/avatar.svg"
@@ -135,21 +116,21 @@
                 <div class="bg-light rounded py-2 px-3 mb-2">
                   <p class="text-small mb-0 text-muted">Hello bro</p>
                 </div>
-                <p class="small text-muted">12:00 PM | Jan 13</p>
+                <p class="small text-muted">1:02 PM | Tue Jan 15 2024</p>
               </div>
             </div>
 
-            <!-- Reciever Message-->
+            <!-- sender-->
             <div class="media w-50 ml-auto mb-3">
               <div class="media-body">
                 <div class="bg-custom rounded py-2 px-3 mb-2">
                   <p class="text-small mb-0 text-white">Hi. How are you</p>
                 </div>
-                <p class="small text-muted">12:01 PM | Jan 13</p>
+                <p class="small text-muted">1:02 PM | Tue Jan 15 2024</p>
               </div>
             </div>
 
-            <!-- Sender Message-->
+            <!-- other user-->
             <div class="media w-50 mb-3">
               <img
                 src="https://bootstrapious.com/i/snippets/sn-chat/avatar.svg"
@@ -161,41 +142,70 @@
                 <div class="bg-light rounded py-2 px-3 mb-2">
                   <p class="text-small mb-0 text-muted">What are you doing?</p>
                 </div>
-                <p class="small text-muted">12:00 PM | Jan 13</p>
-              </div>
-            </div>
-
-            <!-- Reciever Message-->
-            <div class="media w-50 ml-auto mb-3">
-              <div class="media-body">
-                <div class="bg-custom rounded py-2 px-3 mb-2">
-                  <p class="text-small mb-0 text-white">
-                    Nothing, just learning to use chats
-                  </p>
-                </div>
-                <p class="small text-muted">12:00 PM | Jan 13</p>
+                <p class="small text-muted">1:02 PM | Tue Jan 15 2024</p>
               </div>
             </div>
           </div>
 
           <!-- Typing area -->
-          <form action="#" class="bg-light">
+          <form class="bg-light" id="message-input">
             <div class="input-group">
               <input
+                id="msg"
                 type="text"
                 placeholder="Type a message"
-                aria-describedby="button-addon2"
+                required
                 class="form-control rounded-0 border-0 py-4 bg-light"
               />
-              <div class="input-group-append">
-                <button id="button-addon2" type="submit" class="btn btn-link">
-                  <i class="fa fa-paper-plane"></i>
-                </button>
-              </div>
             </div>
           </form>
         </div>
       </div>
     </div>
+    <script>
+      const socket = io();
+
+      socket.on("message", (message) => {
+        console.log(message);
+        ShowMessage(message);
+      });
+
+      const messageInput = document.getElementById("message-input");
+      //after message submit
+      messageInput.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const msg = e.target.elements.msg.value;
+
+        //emitting message to server
+        socket.emit("chatMessage", msg);
+      });
+
+      //show message in html page
+      function ShowMessage(message) {
+        const div = document.createElement("div");
+        div.classList.add("media", "w-50", "ml-auto", "mb-3");
+
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "numeric",
+          hour12: true,
+        });
+
+        const formattedDateTime = `${formattedDate} | ${currentDate.toDateString()}`;
+
+        div.innerHTML = `<div class="media-body">
+                <div class="bg-custom rounded py-2 px-3 mb-2">
+                  <p class="text-small mb-0 text-white" id="messageText">
+                    ${message}
+                  </p>
+                </div>
+                <p class="small text-muted">${formattedDateTime}</p>
+              </div>
+            </div>
+        `;
+        document.getElementById("chat-box").appendChild(div);
+      }
+    </script>
   </body>
 </html>

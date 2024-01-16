@@ -3,22 +3,24 @@ import session from "express-session";
 import flash from "express-flash";
 import passport from "passport";
 import authRoutes from "./src/routes/authRoutes";
-import { dashboardController } from "./src/controllers/dashboardController";
 
 import { checkAuthenticated, checkNotAuthenticated } from "./src/util/utils";
-import http from "http";
-
-const { createServer } = require("node:http");
-const { Server } = require("socket.io");
+import { createServer } from "node:http";
+import { Server } from "socket.io";
 
 const app = express();
 const server = createServer(app);
+// const io = socketio(server);
 const io = new Server(server);
 const PORT = process.env.PORT || 8000;
-// const io = socketio(server);
 
 io.on("connection", (socket: any) => {
   console.log("New Websocket connection....... this is working");
+
+  //listen for chat message
+  socket.on("chatMessage", (msg: String) => {
+    io.emit("message", msg);
+  });
 });
 
 // Middlewares
